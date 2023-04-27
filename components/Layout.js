@@ -6,10 +6,11 @@ export default function Layout({ children }) {
 
   if (!session) {
     return (
-      <div className="bg-slate-800 w-screen h-screen flex items-center">
-        <div className="text-center w-full text-white"></div>
-        <div>
+      <div className="bg-slate-800 w-screen h-screen flex flex-col items-center justify-center">
+        <div className="text-center w-full text-white">
           Not signed in <br />
+        </div>
+        <div>
           <button
             className="text-black bg-white p-2 px-4 rounded-lg hover:bg-gray-300
               transition-colors"

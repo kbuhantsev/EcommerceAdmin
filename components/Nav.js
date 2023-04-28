@@ -10,10 +10,10 @@ import {
 } from "./Icons";
 
 const navLinks = [
-  { name: "Dashboard", path: "/", component: DashboardSVG },
-  { name: "Products", path: "/products", component: ProductsSVG },
-  { name: "Orders", path: "/orders", component: OrdersSVG },
-  { name: "Settings", path: "/settings", component: SettingsSVG },
+  { name: "Dashboard", path: "/", Component: DashboardSVG },
+  { name: "Products", path: "/products", Component: ProductsSVG },
+  { name: "Orders", path: "/orders", Component: OrdersSVG },
+  { name: "Settings", path: "/settings", Component: SettingsSVG },
 ];
 
 const Nav = () => {
@@ -30,13 +30,14 @@ const Nav = () => {
         <span>Ecommerce Admin</span>
       </Link>
       <nav className="flex flex-col gap-3">
-        {navLinks.map(({ name, path, component }) => {
+        {navLinks.map(({ name, path, Component }) => {
           return (
             <Link
+              key={name}
               href={path}
               className={pathname === path ? activeLink : inactiveLink}
             >
-              {component}
+              <Component />
               {name}
             </Link>
           );

@@ -9,6 +9,13 @@ import {
   SettingsSVG,
 } from "./Icons";
 
+const navLinks = [
+  { name: "Dashboard", path: "/", component: DashboardSVG },
+  { name: "Products", path: "/products", component: ProductsSVG },
+  { name: "Orders", path: "/orders", component: OrdersSVG },
+  { name: "Settings", path: "/settings", component: SettingsSVG },
+];
+
 const Nav = () => {
   const router = useRouter();
   const { pathname } = router;
@@ -23,34 +30,17 @@ const Nav = () => {
         <span>Ecommerce Admin</span>
       </Link>
       <nav className="flex flex-col gap-3">
-        <Link
-          href={"/"}
-          className={pathname === "/" ? activeLink : inactiveLink}
-        >
-          <DashboardSVG />
-          Dashboard
-        </Link>
-        <Link
-          href={"/products"}
-          className={pathname.includes("/products") ? activeLink : inactiveLink}
-        >
-          <ProductsSVG />
-          Products
-        </Link>
-        <Link
-          href={"/orders"}
-          className={pathname.includes("/orders") ? activeLink : inactiveLink}
-        >
-          <OrdersSVG />
-          Orders
-        </Link>
-        <Link
-          href={"/settings"}
-          className={pathname.includes("/settings") ? activeLink : inactiveLink}
-        >
-          <SettingsSVG />
-          Settings
-        </Link>
+        {navLinks.map(({ name, path, component }) => {
+          return (
+            <Link
+              href={path}
+              className={pathname === path ? activeLink : inactiveLink}
+            >
+              {component}
+              {name}
+            </Link>
+          );
+        })}
       </nav>
     </aside>
   );

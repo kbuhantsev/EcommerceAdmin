@@ -19,12 +19,8 @@ const EditProductPage = () => {
 
   return (
     <Layout>
-      {productInfo && (
-        <>
-          <h1>Edit product</h1>
-          <ProductForm {...productInfo} />
-        </>
-      )}
+      <h1>Edit product</h1>
+      {productInfo && <ProductForm {...productInfo} />}
     </Layout>
   );
 };

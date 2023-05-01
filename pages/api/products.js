@@ -14,9 +14,24 @@ export default async function handler(req, res) {
       const product = await Product.find();
       res.status(200).json(product);
     }
-  } else if (method === "POST") {
+  }
+
+  if (method === "POST") {
     const { title, description, price } = req.body;
-    const poductDoc = await Product.create({ title, description, price });
-    res.status(201).json(poductDoc);
+    const poduct = await Product.create({ title, description, price });
+    res.status(201).json(poduct);
+  }
+
+  if (method === "PUT") {
+    const { title, description, price, _id } = req.body;
+    const poduct = await Product.findOneAndUpdate(
+      { _id },
+      {
+        title,
+        description,
+        price,
+      }
+    );
+    res.status(200).json(poduct);
   }
 }

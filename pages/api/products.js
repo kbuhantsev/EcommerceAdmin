@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
   if (method === "PUT") {
     const { title, description, price, _id } = req.body;
-    const poduct = await Product.findOneAndUpdate(
+    const poduct = await Product.updateOne(
       { _id },
       {
         title,
@@ -33,5 +33,12 @@ export default async function handler(req, res) {
       }
     );
     res.status(200).json(poduct);
+  }
+
+  if (method === "DELETE") {
+    if (req.query?.id) {
+      await Product.deleteOne({ _id: req.query.id });
+      res.status(200).json(true);
+    }
   }
 }

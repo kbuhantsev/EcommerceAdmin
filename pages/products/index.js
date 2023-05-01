@@ -1,4 +1,4 @@
-import { EditSVG } from "@/components/Icons";
+import { DeleteSVG, EditSVG } from "@/components/Icons";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import Link from "next/link";
@@ -33,6 +33,10 @@ const Products = () => {
                 <Link href={"/products/edit/" + _id}>
                   <EditSVG />
                   Edit
+                </Link>
+                <Link href={"/products/delete/" + _id}>
+                  <DeleteSVG />
+                  Delete
                 </Link>
               </td>
             </tr>

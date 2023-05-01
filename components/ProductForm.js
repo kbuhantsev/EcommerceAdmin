@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { UploadSVG } from "./Icons";
+import FadeSpinner from "./FadeSpinner";
 
 const ProductForm = ({
   _id,
@@ -15,13 +16,14 @@ const ProductForm = ({
   const [price, setPrice] = useState(existingPrice || 0);
   const [images, setImages] = useState(existingImages || []);
   const [goToProducts, setGoToProducts] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const router = useRouter();
 
   const saveProduct = async (event) => {
     event.preventDefault();
 
-    const data = { title, description, price };
+    const data = { title, description, price, images };
     if (_id) {
       //update
       await axios.put("/api/products", { ...data, _id });
@@ -40,6 +42,7 @@ const ProductForm = ({
     const files = e.target?.files;
 
     if (files?.length > 0) {
+      setUploading(true);
       const data = new FormData();
       for (const file of files) {
         data.append("file", file);
@@ -50,6 +53,7 @@ const ProductForm = ({
         return [...oldImages, ...res.data];
       });
     }
+    setUploading(false);
   };
 
   return (
@@ -65,7 +69,7 @@ const ProductForm = ({
       />
       <label>Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
-        {images?.length &&
+        {images.length > 0 &&
           images.map((image) => (
             <div key={image.public_id} className="h-24">
               <img
@@ -75,6 +79,11 @@ const ProductForm = ({
               />
             </div>
           ))}
+        {uploading && (
+          <div className="flex justify-center items-center h-24">
+            <FadeSpinner />
+          </div>
+        )}
         <label
           className="flex flex-col justify-center items-center 
         gap-1 text-gray-500 w-24 h-24 rounded-lg bg-gray-200 cursor-pointer"
@@ -83,7 +92,6 @@ const ProductForm = ({
           Upload
           <input type="file" className="hidden" onChange={uploadImages} />
         </label>
-        {!images?.length && <div>No photos in this product</div>}
       </div>
       <label>Product decription</label>
       <textarea

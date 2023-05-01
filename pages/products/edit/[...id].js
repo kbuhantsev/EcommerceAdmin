@@ -10,15 +10,21 @@ const EditProductPage = () => {
   const { id } = router.query;
 
   useEffect(() => {
-    if (!id) return;
-    axios.get("/api/products?id=" + id).then((response) => {
+    async function getProduct() {
+      const response = await axios.get("/api/products?id=" + id);
       setProductInfo(response.data);
-    });
-  }, [id]);
+    }
+    getProduct();
+  }, []);
 
   return (
     <Layout>
-      <ProductForm {...productInfo} />
+      {productInfo && (
+        <>
+          <h1>Edit product</h1>
+          <ProductForm {...productInfo} />
+        </>
+      )}
     </Layout>
   );
 };

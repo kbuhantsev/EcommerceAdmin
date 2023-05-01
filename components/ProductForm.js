@@ -7,24 +7,24 @@ const ProductForm = ({
   description: existingDescription,
   price: existingPrice,
 }) => {
-  const router = useRouter();
-
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || 0);
+  const [goToProducts, setGoToProducts] = useState(false);
+
+  const router = useRouter();
 
   const createProduct = async (event) => {
     event.preventDefault();
 
     const data = { title, description, price };
-
-    const { status } = await axios.post("/api/products", data);
-    if (status === 201) {
-      router.push("/products");
-    } else {
-      alert(status);
-    }
+    await axios.post("/api/products", data);
+    setGoToProducts(true);
   };
+
+  if (goToProducts) {
+    router.push("/products");
+  }
 
   return (
     <form onSubmit={createProduct}>

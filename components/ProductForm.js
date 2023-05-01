@@ -8,11 +8,12 @@ const ProductForm = ({
   title: existingTitle,
   description: existingDescription,
   price: existingPrice,
-  images,
+  images: existingImages,
 }) => {
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || 0);
+  const [images, setImages] = useState(existingImages || []);
   const [goToProducts, setGoToProducts] = useState(false);
 
   const router = useRouter();
@@ -43,12 +44,11 @@ const ProductForm = ({
       for (const file of files) {
         data.append("file", file);
       }
-      const res = await axios.post("/api/upload", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.post("/api/upload", data);
       //console.log(res.data);
+      setImages((oldImages) => {
+        return [...oldImages, ...res.data];
+      });
     }
   };
 
@@ -64,7 +64,17 @@ const ProductForm = ({
         }}
       />
       <label>Photos</label>
-      <div className="mb-2">
+      <div className="mb-2 flex flex-wrap gap-2">
+        {images?.length &&
+          images.map((image) => (
+            <div key={image.public_id} className="h-24">
+              <img
+                src={image.url}
+                alt={image.original_filename}
+                className="rounded-lg"
+              />
+            </div>
+          ))}
         <label
           className="flex flex-col justify-center items-center 
         gap-1 text-gray-500 w-24 h-24 rounded-lg bg-gray-200 cursor-pointer"

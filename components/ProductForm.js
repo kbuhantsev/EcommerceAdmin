@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { UploadSVG } from "./Icons";
 
 const ProductForm = ({
   _id,
   title: existingTitle,
   description: existingDescription,
   price: existingPrice,
+  images,
 }) => {
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
@@ -33,6 +35,23 @@ const ProductForm = ({
     router.push("/products");
   }
 
+  const uploadImages = async (e) => {
+    const files = e.target?.files;
+
+    if (files?.length > 0) {
+      const data = new FormData();
+      for (const file of files) {
+        data.append("file", file);
+      }
+      const res = await axios.post("/api/upload", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      //console.log(res.data);
+    }
+  };
+
   return (
     <form onSubmit={saveProduct}>
       <label>Product name</label>
@@ -44,6 +63,18 @@ const ProductForm = ({
           setTitle(e.target.value);
         }}
       />
+      <label>Photos</label>
+      <div className="mb-2">
+        <label
+          className="flex flex-col justify-center items-center 
+        gap-1 text-gray-500 w-24 h-24 rounded-lg bg-gray-200 cursor-pointer"
+        >
+          <UploadSVG />
+          Upload
+          <input type="file" className="hidden" onChange={uploadImages} />
+        </label>
+        {!images?.length && <div>No photos in this product</div>}
+      </div>
       <label>Product decription</label>
       <textarea
         placeholder="decription..."

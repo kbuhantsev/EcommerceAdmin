@@ -10,12 +10,13 @@ const EditProductPage = () => {
   const { id } = router.query;
 
   useEffect(() => {
+    if (!id) return;
     async function getProduct() {
       const response = await axios.get("/api/products?id=" + id);
       setProductInfo(response.data);
     }
     getProduct();
-  }, []);
+  }, [id]);
 
   return (
     <Layout>

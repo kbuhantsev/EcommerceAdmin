@@ -7,11 +7,13 @@ import {
   OrdersSVG,
   ProductsSVG,
   SettingsSVG,
+  CategoriesSVG,
 } from "./Icons";
 
 const navLinks = [
   { name: "Dashboard", path: "/", Component: DashboardSVG },
   { name: "Products", path: "/products", Component: ProductsSVG },
+  { name: "Categories", path: "/categories", Component: CategoriesSVG },
   { name: "Orders", path: "/orders", Component: OrdersSVG },
   { name: "Settings", path: "/settings", Component: SettingsSVG },
 ];

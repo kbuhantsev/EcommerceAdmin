@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { UploadSVG } from "./Icons";
 import FadeSpinner from "./FadeSpinner";
+import { ReactSortable } from "react-sortablejs";
 
 const ProductForm = ({
   _id,
@@ -48,13 +49,16 @@ const ProductForm = ({
         data.append("file", file);
       }
       const res = await axios.post("/api/upload", data);
-      //console.log(res.data);
       setImages((oldImages) => {
         return [...oldImages, ...res.data];
       });
     }
     setUploading(false);
   };
+
+  function updateImagesOrder(images) {
+    setImages(images);
+  }
 
   return (
     <form onSubmit={saveProduct}>
@@ -69,16 +73,22 @@ const ProductForm = ({
       />
       <label>Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
-        {images.length > 0 &&
-          images.map((image) => (
-            <div key={image.public_id} className="h-24">
-              <img
-                src={image.url}
-                alt={image.original_filename}
-                className="rounded-lg"
-              />
-            </div>
-          ))}
+        <ReactSortable
+          list={images}
+          setList={updateImagesOrder}
+          className="flex flex-wrap gap-1"
+        >
+          {images.length > 0 &&
+            images.map((image) => (
+              <div key={image.public_id} className="h-24">
+                <img
+                  src={image.url}
+                  alt={image.original_filename}
+                  className="rounded-lg"
+                />
+              </div>
+            ))}
+        </ReactSortable>
         {uploading && (
           <div className="flex justify-center items-center h-24">
             <FadeSpinner />

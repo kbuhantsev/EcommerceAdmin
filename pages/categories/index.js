@@ -1,3 +1,4 @@
+import { DeleteSVG, EditSVG } from "@/components/Icons";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ const CategoriesPage = () => {
   const [name, setName] = useState("");
   const [parentCategory, setParentCategory] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [editedCategory, setEditedCategory] = useState(null);
 
   useEffect(() => {
     getCategories();
@@ -18,15 +20,31 @@ const CategoriesPage = () => {
 
   const saveCategory = async (e) => {
     e.preventDefault();
-    await axios.post("api/categories", { name, parentCategory });
+    const data = { name, parentCategory };
+    if (editedCategory) {
+      const _id = editedCategory._id;
+      await axios.put("api/categories", { ...data, _id });
+    } else {
+      await axios.post("api/categories", data);
+    }
     setName("");
     getCategories();
+  };
+
+  const editCategory = (categorie) => {
+    setEditedCategory(categorie);
+    setName(categorie.name);
+    setParentCategory(categorie.parent?._id);
   };
 
   return (
     <Layout>
       <h1>Categories</h1>
-      <label>New category name</label>
+      <label>
+        {editedCategory
+          ? `Edit category: ${editedCategory.name}`
+          : "Create new category"}
+      </label>
       <form className="flex gap-1" onSubmit={saveCategory}>
         <input
           className="mb-0"
@@ -55,6 +73,7 @@ const CategoriesPage = () => {
           <tr>
             <td>Category name</td>
             <td>Parent category</td>
+            <td></td>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +82,19 @@ const CategoriesPage = () => {
               <tr>
                 <td>{category.name}</td>
                 <td>{category?.parent?.name}</td>
+                <td className="flex gap-2">
+                  <button
+                    className="btn-primary"
+                    onClick={() => editCategory(category)}
+                  >
+                    <EditSVG h={6} />
+                    Edit
+                  </button>
+                  <button className="btn-primary">
+                    <DeleteSVG h={6} />
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
         </tbody>

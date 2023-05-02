@@ -22,7 +22,14 @@ const CategoriesPage = () => {
 
   const saveCategory = async (e) => {
     e.preventDefault();
-    const data = { name, parentCategory };
+    const data = {
+      name,
+      parentCategory,
+      properties: properties.map((p) => ({
+        name: p.name,
+        values: p.values.split(","),
+      })),
+    };
     if (editedCategory) {
       await axios.put("api/categories", { ...data, _id: editedCategory._id });
       setEditedCategory(null);
@@ -30,6 +37,8 @@ const CategoriesPage = () => {
       await axios.post("api/categories", data);
     }
     setName("");
+    setParentCategory("");
+    setProperties([]);
     getCategories();
   };
 
@@ -37,6 +46,7 @@ const CategoriesPage = () => {
     setEditedCategory(categorie);
     setName(categorie.name);
     setParentCategory(categorie.parent?._id);
+    setProperties(categorie.properties);
   };
 
   const deleteCategory = (categorie) => {
@@ -155,44 +165,62 @@ const CategoriesPage = () => {
               </div>
             ))}
         </div>
-        <button type="submit" className="btn-primary py-1">
-          Save
-        </button>
+        <div className="flex gap-2">
+          {editedCategory && (
+            <button
+              type="button"
+              className="btn-default "
+              onClick={() => {
+                setEditedCategory(null);
+                setName("");
+                setParentCategory("");
+                setProperties([]);
+              }}
+            >
+              Cancel
+            </button>
+          )}
+          <button type="submit" className="btn-primary py-1">
+            Save
+          </button>
+        </div>
       </form>
-      <table className="basic mt-4">
-        <thead>
-          <tr>
-            <td>Category name</td>
-            <td>Parent category</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.length > 0 &&
-            categories.map((category) => (
-              <tr>
-                <td>{category.name}</td>
-                <td>{category?.parent?.name}</td>
-                <td className="flex gap-2">
-                  <button
-                    className="btn-primary"
-                    onClick={() => editCategory(category)}
-                  >
-                    <EditSVG h={6} />
-                    Edit
-                  </button>
-                  <button
-                    className="btn-primary"
-                    onClick={() => deleteCategory(category)}
-                  >
-                    <DeleteSVG h={6} />
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      {!editedCategory && (
+        <table className="basic mt-4">
+          <thead>
+            <tr>
+              <td>Category name</td>
+              <td>Parent category</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.length > 0 &&
+              categories.map((category) => (
+                <tr key={category._id}>
+                  <td>{category.name}</td>
+                  <td>{category?.parent?.name}</td>
+                  <td className="flex gap-2">
+                    <button
+                      className="btn-primary"
+                      onClick={() => editCategory(category)}
+                    >
+                      <EditSVG h={6} />
+                      Edit
+                    </button>
+                    <button
+                      className="btn-primary"
+                      onClick={() => deleteCategory(category)}
+                    >
+                      <DeleteSVG h={6} />
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      )}
     </Layout>
   );
 };

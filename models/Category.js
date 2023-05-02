@@ -11,6 +11,7 @@ const CategorySchema = new Schema(
       ref: "Category",
       default: null, //
     },
+    properties: [{ type: Object }],
   },
   {
     versionKey: false,

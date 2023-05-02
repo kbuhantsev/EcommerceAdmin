@@ -12,6 +12,7 @@ const ProductForm = ({
   price: existingPrice,
   images: existingImages,
   category: assignedCategory,
+  properties: assignedProperties,
 }) => {
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
@@ -21,8 +22,15 @@ const ProductForm = ({
   const [uploading, setUploading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(assignedCategory || "");
+  const [productProperties, setProductProperties] = useState(
+    assignedProperties || {}
+  );
 
   const router = useRouter();
+
+  if (goToProducts) {
+    router.push("/products");
+  }
 
   useEffect(() => {
     getCategories();
@@ -36,7 +44,14 @@ const ProductForm = ({
   const saveProduct = async (event) => {
     event.preventDefault();
 
-    const data = { title, description, price, images, category };
+    const data = {
+      title,
+      description,
+      price,
+      images,
+      category,
+      properties: productProperties,
+    };
     if (_id) {
       //update
       await axios.put("/api/products", { ...data, _id });
@@ -46,10 +61,6 @@ const ProductForm = ({
     }
     setGoToProducts(true);
   };
-
-  if (goToProducts) {
-    router.push("/products");
-  }
 
   const uploadImages = async (e) => {
     const files = e.target?.files;
@@ -70,6 +81,27 @@ const ProductForm = ({
 
   function updateImagesOrder(images) {
     setImages(images);
+  }
+
+  const setProductProp = (propName, value) => {
+    setProductProperties((prev) => {
+      const newProductProps = { ...prev };
+      newProductProps[propName] = value;
+      return newProductProps;
+    });
+  };
+
+  const propertiesToFill = [];
+  if (categories.length > 0 && category) {
+    let catInfo = categories.find(({ _id }) => _id === category);
+    propertiesToFill.push(...catInfo.properties);
+    while (catInfo?.parent?._id) {
+      const parentCat = categories.find(
+        ({ _id }) => _id === catInfo?.parent?._id
+      );
+      propertiesToFill.push(...parentCat.properties);
+      catInfo = parentCat;
+    }
   }
 
   return (
@@ -94,6 +126,23 @@ const ProductForm = ({
             </option>
           ))}
       </select>
+
+      {propertiesToFill.length > 0 &&
+        propertiesToFill.map((property) => (
+          <div key={property._id} className="flex gap-1">
+            <div>{property.name}</div>
+            <select
+              value={productProperties[property.name]}
+              onChange={(e) => setProductProp(property.name, e.target.value)}
+            >
+              {property.values.map((val, idx) => (
+                <option key={idx} value={val}>
+                  {val}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
 
       <label>Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
@@ -127,6 +176,7 @@ const ProductForm = ({
           <input type="file" className="hidden" onChange={uploadImages} />
         </label>
       </div>
+
       <label>Product decription</label>
       <textarea
         placeholder="decription..."
@@ -135,6 +185,7 @@ const ProductForm = ({
           setDescription(e.target.value);
         }}
       />
+
       <label>Product price</label>
       <input
         type="number"
@@ -144,6 +195,7 @@ const ProductForm = ({
           setPrice(e.target.value);
         }}
       />
+
       <div className="flex w-full">
         <button className="btn-primary ml-auto" type="submit">
           Save

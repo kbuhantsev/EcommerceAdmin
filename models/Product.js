@@ -30,6 +30,7 @@ const ProductSchema = new Schema(
         secure_url: String,
       },
     ],
+    properties: { type: Object },
   },
   {
     versionKey: false,

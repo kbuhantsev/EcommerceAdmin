@@ -46,7 +46,12 @@ const CategoriesPage = () => {
     setEditedCategory(categorie);
     setName(categorie.name);
     setParentCategory(categorie.parent?._id);
-    setProperties(categorie.properties);
+    setProperties(
+      categorie.properties.map(({ name, values }) => ({
+        name,
+        values: values.join(","),
+      }))
+    );
   };
 
   const deleteCategory = (categorie) => {

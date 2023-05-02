@@ -6,20 +6,21 @@ export default async function handler(req, res) {
 
   await mongooseConnect();
 
-  // if (method === "GET") {
-  //   if (req.query?.id) {
-  //     const product = await Product.findById(req.query.id);
-  //     res.status(200).json(product);
-  //   } else {
-  //     const product = await Product.find();
-  //     res.status(200).json(product);
-  //   }
-  // }
+  if (method === "GET") {
+    // if (req.query?.id) {
+    //   const product = await Product.findById(req.query.id);
+    //   res.status(200).json(product);
+    // } else {
+    const categories = await Category.find().populate("parent");
+    res.status(200).json(categories);
+    // }
+  }
 
   if (method === "POST") {
-    const { name } = req.body;
+    const { name, parentCategory } = req.body;
     const categorie = await Category.create({
       name,
+      parent: parentCategory,
     });
     res.status(201).json(categorie);
   }

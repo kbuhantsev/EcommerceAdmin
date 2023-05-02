@@ -4,12 +4,19 @@ const ProductSchema = new Schema(
   {
     title: {
       type: String,
-      required: true, //
+      required: true,
     },
-    description: String,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+    },
+    description: {
+      type: String,
+      required: false,
+    },
     price: {
       type: Number,
-      required: true, //
+      required: true,
     },
     images: [
       {

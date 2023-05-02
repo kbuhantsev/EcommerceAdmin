@@ -2,6 +2,7 @@ import { DeleteSVG, EditSVG } from "@/components/Icons";
 import Layout from "@/components/Layout";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 
 const CategoriesPage = () => {
   const [name, setName] = useState("");
@@ -22,8 +23,8 @@ const CategoriesPage = () => {
     e.preventDefault();
     const data = { name, parentCategory };
     if (editedCategory) {
-      const _id = editedCategory._id;
-      await axios.put("api/categories", { ...data, _id });
+      await axios.put("api/categories", { ...data, _id: editedCategory._id });
+      setEditedCategory(null);
     } else {
       await axios.post("api/categories", data);
     }
@@ -35,6 +36,23 @@ const CategoriesPage = () => {
     setEditedCategory(categorie);
     setName(categorie.name);
     setParentCategory(categorie.parent?._id);
+  };
+
+  const deleteCategory = (categorie) => {
+    Confirm.init({
+      titleColor: "rgb(30 58 138)",
+      okButtonBackground: "rgb(30 58 138)",
+    });
+    Confirm.show(
+      "Deleting category",
+      `Delete category "${categorie.name}"?`,
+      "Yes",
+      "No",
+      async () => {
+        await axios.delete(`/api/categories?id=${categorie._id}`);
+        getCategories();
+      }
+    );
   };
 
   return (
@@ -61,7 +79,9 @@ const CategoriesPage = () => {
           <option value="">No parent category</option>
           {categories.length > 0 &&
             categories.map((category) => (
-              <option value={category._id}>{category.name}</option>
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
             ))}
         </select>
         <button type="submit" className="btn-primary py-1">
@@ -90,7 +110,10 @@ const CategoriesPage = () => {
                     <EditSVG h={6} />
                     Edit
                   </button>
-                  <button className="btn-primary">
+                  <button
+                    className="btn-primary"
+                    onClick={() => deleteCategory(category)}
+                  >
                     <DeleteSVG h={6} />
                     Delete
                   </button>

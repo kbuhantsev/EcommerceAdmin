@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav";
 import { signIn, useSession } from "next-auth/react";
+import AuthForm from "./AuthForm";
 
 export default function Layout({ children }) {
   const { data: session } = useSession();
@@ -7,9 +8,10 @@ export default function Layout({ children }) {
   if (!session) {
     return (
       <div className="bg-slate-800 w-screen h-screen flex flex-col items-center justify-center">
-        <div className="text-center w-full text-white">
+        {/* <div className="text-center w-full text-white">
           Not signed in <br />
-        </div>
+        </div> */}
+        <AuthForm />
         <div>
           <button
             className="text-black bg-white p-2 px-4 rounded-lg hover:bg-gray-300

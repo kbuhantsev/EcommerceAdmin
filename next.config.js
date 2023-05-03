@@ -4,3 +4,10 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+// webpack: (config) => {
+//     config.experiments = {
+//       topLevelAwait: true,
+//     };
+//     return config;
+//   },

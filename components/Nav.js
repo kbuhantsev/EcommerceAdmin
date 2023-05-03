@@ -8,7 +8,9 @@ import {
   ProductsSVG,
   SettingsSVG,
   CategoriesSVG,
+  LogoutSVG,
 } from "./Icons";
+import { signOut } from "next-auth/react";
 
 const navLinks = [
   { name: "Dashboard", path: "/", Component: DashboardSVG },
@@ -22,7 +24,7 @@ const Nav = () => {
   const router = useRouter();
   const { pathname } = router;
 
-  const inactiveLink = "flex gap-1  p-1";
+  const inactiveLink = "flex gap-1 p-1";
   const activeLink = inactiveLink + " bg-white text-blue-900 rounded-l-lg";
 
   return (
@@ -44,6 +46,16 @@ const Nav = () => {
             </Link>
           );
         })}
+        <button
+          type="button"
+          className={inactiveLink}
+          onClick={() => {
+            signOut();
+          }}
+        >
+          <LogoutSVG />
+          Logout
+        </button>
       </nav>
     </aside>
   );

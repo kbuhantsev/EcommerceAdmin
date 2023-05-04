@@ -38,7 +38,18 @@ const AuthForm = () => {
     }
   }, [name, email, password]);
 
-  const login = useCallback(async () => {}, []);
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password]);
 
   return (
     <div className="flex justify-center w-screen">

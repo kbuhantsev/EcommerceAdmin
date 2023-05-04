@@ -6,7 +6,7 @@ import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 
 const CategoriesPage = () => {
   const [name, setName] = useState("");
-  const [parentCategory, setParentCategory] = useState(null);
+  const [parentCategory, setParentCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [editedCategory, setEditedCategory] = useState(null);
   const [properties, setProperties] = useState([]);

@@ -22,6 +22,10 @@ h1 {
   @apply text-blue-900 mb-2 font-bold text-xl;
 }
 
+h2 {
+  @apply text-blue-900 mb-2 font-semibold text-lg;
+}
+
 label {
   @apply text-blue-900 font-medium;
 }

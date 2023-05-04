@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import Input from "./Input";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const AuthForm = () => {
   const [email, setEmail] = useState("");
@@ -25,12 +26,23 @@ const AuthForm = () => {
     );
   }, []);
 
-  const login = () => {};
-  const register = () => {};
+  const register = useCallback(async () => {
+    try {
+      await axios.post("api/register", {
+        name,
+        email,
+        password,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [name, email, password]);
+
+  const login = useCallback(async () => {}, []);
 
   return (
     <div className="flex justify-center w-screen">
-      <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
+      <div className="bg-black bg-opacity-40 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
         <h2 className="text-white text-4xl mb-8 font-semibold">
           {variant === "login" ? "Sign in" : "Register"}
         </h2>
@@ -47,7 +59,7 @@ const AuthForm = () => {
           <Input
             id="email"
             type="email"
-            label="Email address or phone number"
+            label="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

@@ -132,6 +132,7 @@ const ProductForm = ({
           <div key={property._id} className="flex gap-1">
             <div>{property.name}</div>
             <select
+              key={property._id}
               value={productProperties[property.name]}
               onChange={(e) => setProductProp(property.name, e.target.value)}
             >

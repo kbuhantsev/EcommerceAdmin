@@ -22,6 +22,10 @@ const UsersSchema = new Schema(
       type: Date,
       default: null,
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     versionKey: false,

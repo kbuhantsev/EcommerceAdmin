@@ -6,10 +6,7 @@ import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-const adminEmails = ["k.buhantsev@gmail.com", "kotus@mail.ru"];
-
 export const authOptions = {
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -17,7 +14,7 @@ export const authOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password required!");
         }
@@ -46,22 +43,21 @@ export const authOptions = {
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    session: ({ session }) => {
-      if (adminEmails.includes(session?.user?.email)) {
+    session: async ({ session }) => {
+      const adminEmails = await User.find({ admin: true }, "email");
+      if (adminEmails.find(({ email }) => email === session?.user?.email)) {
         return session;
       } else {
         console.log(`
-        /////////////////////////
-        //----- permission denied for ${session?.user?.email}`);
+        !!-- permission denied for ${session?.user?.email}`);
         return false;
       }
     },
   },
   pages: {
     signIn: "/",
-    //error: "/login",
   },
-  debug: process.env.NODE_ENV === "development",
+  //debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
   },

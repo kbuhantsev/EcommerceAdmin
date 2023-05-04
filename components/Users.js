@@ -25,6 +25,7 @@ const Users = () => {
               value={user.admin}
               checked={user.admin}
               className="w-auto mr-2"
+              onChange={() => {}}
             />
             <label for="admin">{user.name}</label>
           </div>

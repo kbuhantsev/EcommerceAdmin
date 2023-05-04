@@ -5,6 +5,8 @@ import { compare } from "bcrypt";
 import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
+import { mongooseConnect } from "@/lib/connectMongo";
 
 export const authOptions = {
   providers: [
@@ -37,13 +39,20 @@ export const authOptions = {
       },
     }),
     GoogleProvider({
+      name: "google",
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+    }),
+    GitHubProvider({
+      name: "github",
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session: async ({ session }) => {
+      await mongooseConnect();
       const adminEmails = await User.find({ admin: true }, "email");
       if (adminEmails.find(({ email }) => email === session?.user?.email)) {
         return session;

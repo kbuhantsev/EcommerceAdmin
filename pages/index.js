@@ -1,22 +1,22 @@
 import Layout from "@/components/Layout";
-import { useSession } from "next-auth/react";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: user } = useCurrentUser();
 
   return (
     <Layout>
       <div className="flex justify-between text-blue-900">
         <h2 className="">
-          Hello, <b>{session?.user?.name}</b>
+          Hello, <b>{user?.name}</b>
         </h2>
         <div className="flex gap-2 items-center">
           <img
-            src={session?.user?.image}
+            src={user?.image}
             alt="user avatar"
             className="h-12 rounded-full"
           />
-          <span>{session?.user?.name}</span>
+          <span>{user?.name}</span>
         </div>
       </div>
     </Layout>

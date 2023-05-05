@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const { currentUser } = await serverAuth(req);
     return res.status(200).json(currentUser);
   } catch (error) {
-    console.log(errer);
+    console.log(error);
     return res.status(400).end();
   }
 }

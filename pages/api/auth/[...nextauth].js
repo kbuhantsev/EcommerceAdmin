@@ -6,7 +6,6 @@ import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import { mongooseConnect } from "@/lib/connectMongo";
 
 export const authOptions = {
   providers: [
@@ -35,6 +34,10 @@ export const authOptions = {
           throw new Error("Incorrect password!");
         }
 
+        // if (!user.admin) {
+        //   throw new Error(`Permission denied for ${user.email}`);
+        // }
+
         return user;
       },
     }),
@@ -51,17 +54,17 @@ export const authOptions = {
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    session: async ({ session }) => {
-      await mongooseConnect();
-      const adminEmails = await User.find({ admin: true }, "email");
-      if (adminEmails.find(({ email }) => email === session?.user?.email)) {
-        return session;
-      } else {
-        console.log(`
-        !!-- permission denied for ${session?.user?.email}`);
-        return false;
-      }
-    },
+    // session: async ({ session }) => {
+    //   await mongooseConnect();
+    //   const adminEmails = await User.find({ admin: true }, "email");
+    //   if (adminEmails.find(({ email }) => email === session?.user?.email)) {
+    //     return session;
+    //   } else {
+    //     console.log(`
+    //     !!-- permission denied for ${session?.user?.email}`);
+    //     return false;
+    //   }
+    // },
   },
   pages: {
     signIn: "/",
@@ -81,6 +84,7 @@ export default NextAuth(authOptions);
 export async function isAdminRequest(req, res) {
   const session = await getServerSession(req, res, authOptions);
   if (!adminEmails.includes(session?.user?.email)) {
-    throw "Not an admin";
+    return false;
   }
+  return true;
 }

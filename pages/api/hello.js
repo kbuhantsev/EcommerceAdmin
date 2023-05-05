@@ -1,5 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 // import { isAdminRequest } from "./auth/[...nextauth]";
 
 export default async function handler(req, res) {

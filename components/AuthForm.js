@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 const AuthForm = () => {
   const [email, setEmail] = useState("");
@@ -42,12 +43,15 @@ const AuthForm = () => {
 
   const login = useCallback(async () => {
     try {
-      await signIn("credentials", {
+      const session = await signIn("credentials", {
         email,
         password,
         redirect: false,
         callbackUrl: "/",
       });
+      if (session.error) {
+        Notify.failure(session.error);
+      }
     } catch (error) {
       console.log(error);
     }

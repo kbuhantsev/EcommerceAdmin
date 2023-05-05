@@ -7,13 +7,8 @@ export default async function handler(req, res) {
   await mongooseConnect();
 
   if (method === "GET") {
-    // if (req.query?.id) {
-    //   const product = await Product.findById(req.query.id);
-    //   res.status(200).json(product);
-    // } else {
     const categories = await Category.find().populate("parent");
     res.status(200).json(categories);
-    // }
   }
 
   if (method === "POST") {

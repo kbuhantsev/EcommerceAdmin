@@ -6,6 +6,7 @@ import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import { mongooseConnect } from "@/lib/connectMongo";
 
 export const authOptions = {
   providers: [
@@ -82,9 +83,20 @@ export const authOptions = {
 export default NextAuth(authOptions);
 
 export async function isAdminRequest(req, res) {
+  await mongooseConnect();
   const session = await getServerSession(req, res, authOptions);
-  if (!adminEmails.includes(session?.user?.email)) {
+
+  const admins = await User.find(
+    {
+      admin: true,
+      email: session?.user?.email,
+    },
+    "email"
+  );
+  console.log(admins);
+  if (admins.length) {
+    return true;
+  } else {
     return false;
   }
-  return true;
 }

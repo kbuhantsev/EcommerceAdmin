@@ -3,7 +3,10 @@ import { User } from "@/models/User";
 import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+
+  const { method } = req;
+
+  if (method !== "POST") {
     return res.status(405).end();
   }
 

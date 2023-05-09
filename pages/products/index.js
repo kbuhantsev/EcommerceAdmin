@@ -1,17 +1,10 @@
 import { DeleteSVG, EditSVG } from "@/components/Icons";
 import Layout from "@/components/Layout";
-import axios from "axios";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    axios.get("api/products").then((response) => {
-      setProducts(response.data);
-    });
-  }, []);
+  const { data: products = [] } = useSWR("api/products");
 
   return (
     <Layout>

@@ -1,8 +1,12 @@
 import Layout from "@/components/Layout";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import { useState } from "react";
+import FaUserCircle from "react-icons/fa";
 
 export default function Home() {
   const { data: user } = useCurrentUser();
+
+  const [avatarError, setAvatarError] = useState(false);
 
   return (
     <Layout>
@@ -11,11 +15,17 @@ export default function Home() {
           Hello, <b>{user?.name}</b>
         </h2>
         <div className="flex gap-2 items-center">
-          <img
-            src={user?.image}
-            alt="user avatar"
-            className="h-12 rounded-full"
-          />
+          {avatarError ? (
+            <FaUserCircle className="h-12" />
+          ) : (
+            <img
+              src={user?.image}
+              alt="user avatar"
+              className="h-12 rounded-full"
+              onError={() => setAvatarError(true)}
+            />
+          )}
+
           <span>{user?.name}</span>
         </div>
       </div>

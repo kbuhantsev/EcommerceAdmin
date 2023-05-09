@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { UploadSVG } from "./Icons";
 import FadeSpinner from "./FadeSpinner";
 import { ReactSortable } from "react-sortablejs";
+import useSWR from "swr";
 
 const ProductForm = ({
   _id,
@@ -20,26 +21,17 @@ const ProductForm = ({
   const [images, setImages] = useState(existingImages || []);
   const [goToProducts, setGoToProducts] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(assignedCategory || "");
   const [productProperties, setProductProperties] = useState(
     assignedProperties || {}
   );
 
   const router = useRouter();
+  const { data: categories = [], error } = useSWR("/api/categories");
 
   if (goToProducts) {
     router.push("/products");
   }
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  const getCategories = async () => {
-    const result = await axios.get("/api/categories");
-    setCategories(result.data);
-  };
 
   const saveProduct = async (event) => {
     event.preventDefault();

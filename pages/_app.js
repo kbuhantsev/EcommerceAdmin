@@ -1,5 +1,11 @@
 import "@/styles/globals.css";
+import axios from "axios";
 import { SessionProvider } from "next-auth/react";
+import { SWRConfig } from "swr";
+
+const SWROptions = {
+  fetcher: (url) => axios.get(url).then((res) => res.data),
+};
 
 export default function App({
   Component,
@@ -7,7 +13,9 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <SWRConfig value={SWROptions}>
+        <Component {...pageProps} />
+      </SWRConfig>
     </SessionProvider>
   );
 }

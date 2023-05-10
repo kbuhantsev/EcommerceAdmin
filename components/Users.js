@@ -1,15 +1,22 @@
 import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { sendPUTRequest } from "@/lib/fetcher";
+import axios from "axios";
+
+const updateUser = async (user) => {
+  try {
+    const result = await axios.put("/api/users", user);
+    return result.data;
+  } catch (error) {
+    Notify.failure(error.message);
+  }
+};
 
 const Users = () => {
-  const { data: users = [] } = useSWR("/api/users");
-  const { trigger, isMutating } = useSWRMutation("/api/users", sendPUTRequest);
+  const { data: users = [], isLoading, mutate } = useSWR("/api/users");
 
   const onUserChange = async (_id, checked) => {
     try {
-      await trigger({ _id, admin: checked });
+      await mutate(updateUser({ _id, admin: checked }));
       Notify.success("Users updated");
     } catch (error) {
       Notify.failure(error.message);
@@ -18,7 +25,7 @@ const Users = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="">Users</h2>
+      <h2 className="">Users (selected is admins)</h2>
       {users.length > 0 &&
         users.map((user) => (
           <div key={user._id}>
@@ -27,7 +34,7 @@ const Users = () => {
               id="admin"
               checked={user.admin}
               className="w-auto mr-2"
-              disabled={isMutating}
+              disabled={isLoading}
               onChange={(e) => onUserChange(user._id, e.target.checked)}
             />
             <label htmlFor="admin">{user.name}</label>

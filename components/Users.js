@@ -8,6 +8,7 @@ const updateUser = async (user) => {
     return result.data;
   } catch (error) {
     Notify.failure(error.message);
+    return;
   }
 };
 
@@ -15,11 +16,17 @@ const Users = () => {
   const { data: users = [], isLoading, mutate } = useSWR("/api/users");
 
   const onUserChange = async (_id, checked) => {
-    try {
-      await mutate(updateUser({ _id, admin: checked }));
+    const newUser = await updateUser({ _id, admin: checked });
+    if (newUser) {
+      mutate(
+        users.map((user) =>
+          user._id === _id ? { ...user, admin: checked } : { ...user }
+        ),
+        { revalidate: false }
+      );
       Notify.success("Users updated");
-    } catch (error) {
-      Notify.failure(error.message);
+    } else {
+      Notify.failure("User is not updated!");
     }
   };
 

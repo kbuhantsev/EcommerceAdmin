@@ -13,11 +13,12 @@ export default async function handler(req, res) {
 
   if (method === "PUT") {
     const { _id, admin } = req.body;
-    const user = await User.updateOne(
+    const user = await User.findOneAndUpdate(
       { _id },
       {
         admin,
-      }
+      },
+      { new: true }
     );
     res.status(200).json(user);
   }

@@ -20,7 +20,7 @@ const Users = () => {
     if (newUser) {
       mutate(
         users.map((user) =>
-          user._id === _id ? { ...user, admin: checked } : { ...user }
+          user._id === _id ? { ...user, admin: checked } : user
         ),
         { revalidate: false }
       );

@@ -27,7 +27,7 @@ const ProductForm = ({
   );
 
   const router = useRouter();
-  const { data: categories = [], error } = useSWR("/api/categories");
+  const { data: categories = [] } = useSWR("/api/categories");
 
   if (goToProducts) {
     router.push("/products");

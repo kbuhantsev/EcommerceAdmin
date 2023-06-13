@@ -189,9 +189,16 @@ const ProductForm = ({
         }}
       />
 
-      <div className="flex w-full">
+      <div className="flex w-full gap-2">
         <button className="btn-primary ml-auto" type="submit">
           Save
+        </button>
+        <button
+          className="btn-primary"
+          type="button"
+          onClick={() => setGoToProducts(true)}
+        >
+          Cancel
         </button>
       </div>
     </form>

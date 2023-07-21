@@ -5,7 +5,6 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function Home() {
   const [avatarError, setAvatarError] = useState(false);
-
   const { data: user } = useCurrentUser();
 
   return (
@@ -15,7 +14,7 @@ export default function Home() {
           Hello, <b>{user?.name}</b>
         </h2>
         <div className="flex gap-2 items-center">
-          {avatarError ? (
+          {(user && user.image === "") || avatarError ? (
             <FaUserCircle size={48} />
           ) : (
             <img

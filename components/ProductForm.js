@@ -124,7 +124,7 @@ const ProductForm = ({
           <div key={property._id} className="flex gap-1">
             <div key={property.name}>{property.name}</div>
             <select
-              key={property._id}
+              key={property._id + property.name}
               value={productProperties[property.name]}
               onChange={(e) => setProductProp(property.name, e.target.value)}
             >
@@ -177,6 +177,7 @@ const ProductForm = ({
         onChange={(e) => {
           setDescription(e.target.value);
         }}
+        rows="5"
       />
 
       <label>Product price</label>

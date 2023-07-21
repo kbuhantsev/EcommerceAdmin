@@ -8,7 +8,7 @@ const EcommerceAdminSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"
@@ -27,7 +27,7 @@ const DashboardSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"
@@ -46,7 +46,7 @@ const ProductsSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"
@@ -65,7 +65,7 @@ const OrdersSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"
@@ -84,7 +84,7 @@ const SettingsSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"
@@ -165,7 +165,7 @@ const CategoriesSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"
@@ -184,7 +184,7 @@ const LogoutSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-6 h-6 text-gray-500"
     >
       <path
         strokeLinecap="round"

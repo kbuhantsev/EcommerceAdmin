@@ -1,22 +1,22 @@
-import Layout from "@/components/Layout";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import Layout from "../components/Layout";
+import useCurrentUser from "../hooks/useCurrentUser";
 import { useState } from "react";
-import FaUserCircle from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Home() {
-  const { data: user } = useCurrentUser();
-
   const [avatarError, setAvatarError] = useState(false);
+
+  const { data: user } = useCurrentUser();
 
   return (
     <Layout>
       <div className="flex justify-between text-blue-900">
-        <h2 className="">
+        <h2>
           Hello, <b>{user?.name}</b>
         </h2>
         <div className="flex gap-2 items-center">
           {avatarError ? (
-            <FaUserCircle className="h-12" />
+            <FaUserCircle size={48} />
           ) : (
             <img
               src={user?.image}
@@ -25,8 +25,6 @@ export default function Home() {
               onError={() => setAvatarError(true)}
             />
           )}
-
-          <span>{user?.name}</span>
         </div>
       </div>
     </Layout>

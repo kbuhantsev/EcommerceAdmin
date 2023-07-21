@@ -31,13 +31,20 @@ const AuthForm = () => {
 
   const register = useCallback(async () => {
     try {
-      await axios.post("api/register", {
+      const user = await axios.post("api/register", {
         name,
         email,
         password,
       });
+      if (user) {
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
+      const { response } = error;
+      if (response?.data) {
+        Notify.failure(response.data.error);
+      }
     }
   }, [name, email, password]);
 

@@ -19,7 +19,7 @@ const EcommerceAdminSVG = () => {
   );
 };
 
-const DashboardSVG = () => {
+const DashboardSVG = ({ styles }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ const DashboardSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6 text-gray-500"
+      className={styles}
     >
       <path
         strokeLinecap="round"
@@ -38,7 +38,7 @@ const DashboardSVG = () => {
   );
 };
 
-const ProductsSVG = () => {
+const ProductsSVG = ({ styles }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ const ProductsSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6 text-gray-500"
+      className={styles}
     >
       <path
         strokeLinecap="round"
@@ -57,7 +57,7 @@ const ProductsSVG = () => {
   );
 };
 
-const OrdersSVG = () => {
+const OrdersSVG = ({ styles }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ const OrdersSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6 text-gray-500"
+      className={styles}
     >
       <path
         strokeLinecap="round"
@@ -76,7 +76,7 @@ const OrdersSVG = () => {
   );
 };
 
-const SettingsSVG = () => {
+const SettingsSVG = ({ styles }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ const SettingsSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6 text-gray-500"
+      className={styles}
     >
       <path
         strokeLinecap="round"
@@ -157,7 +157,7 @@ const UploadSVG = () => {
   );
 };
 
-const CategoriesSVG = () => {
+const CategoriesSVG = ({ styles }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +165,7 @@ const CategoriesSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6 text-gray-500"
+      className={styles}
     >
       <path
         strokeLinecap="round"

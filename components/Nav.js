@@ -25,12 +25,15 @@ const Nav = () => {
   const { pathname } = router;
 
   const inactiveLink = "flex gap-1 p-1";
-  const activeLink = inactiveLink + " bg-white text-primary rounded-l-lg";
+  const activeLink = inactiveLink + " bg-heghlight text-primary rounded-sm";
+
+  const inactiveIcon = "w-6 h-6";
+  const activeIcon = inactiveIcon + " text-primary";
 
   return (
-    <aside className="text-gray-500 p-4 pr-0">
+    <aside className="text-gray-500 p-4">
       <Link href={"/"} className="flex gap-1 mb-4 mr-5">
-        <EcommerceAdminSVG />
+        <EcommerceAdminSVG styles={""} />
         <span>Ecommerce Admin</span>
       </Link>
       <nav className="flex flex-col gap-3">
@@ -41,7 +44,9 @@ const Nav = () => {
               href={path}
               className={pathname === path ? activeLink : inactiveLink}
             >
-              <Component />
+              <Component
+                styles={pathname === path ? activeIcon : inactiveIcon}
+              />
               {name}
             </Link>
           );

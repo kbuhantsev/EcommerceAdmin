@@ -20,7 +20,7 @@ const navLinks = [
   { name: "Settings", path: "/settings", Component: SettingsSVG },
 ];
 
-const Nav = () => {
+const Nav = ({ show }) => {
   const router = useRouter();
   const { pathname } = router;
 
@@ -31,7 +31,12 @@ const Nav = () => {
   const activeIcon = inactiveIcon + " text-primary";
 
   return (
-    <aside className="text-gray-500 p-4">
+    <aside
+      className={
+        (show ? "left-0" : "-left-full") +
+        " top-0 text-gray-500 p-4 fixed w-full bg-bgGray h-full md:static md:w-auto transition-all"
+      }
+    >
       <Link href={"/"} className="flex gap-1 mb-4 mr-5">
         <EcommerceAdminSVG styles={""} />
         <span>Ecommerce Admin</span>

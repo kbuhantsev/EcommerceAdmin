@@ -2,7 +2,7 @@ import Nav from "@/components/Nav";
 import { useSession } from "next-auth/react";
 import AuthForm from "./AuthForm";
 import { useState } from "react";
-import { EcommerceAdminSVG, HamburgerSVG } from "./Icons";
+import { HamburgerSVG } from "./Icons";
 import Logo from "./Logo";
 
 export default function Layout({ children }) {
@@ -33,9 +33,7 @@ export default function Layout({ children }) {
 
       <div className="flex">
         <Nav show={showNav} />
-        <div className="bg-white flex-grow mt-2 mr-2 mb-2 rounded-lg p-4">
-          {children}
-        </div>
+        <div className="flex-grow p-4">{children}</div>
       </div>
     </div>
   );

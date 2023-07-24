@@ -2,7 +2,8 @@ import Nav from "@/components/Nav";
 import { useSession } from "next-auth/react";
 import AuthForm from "./AuthForm";
 import { useState } from "react";
-import { HamburgerSVG } from "./Icons";
+import { EcommerceAdminSVG, HamburgerSVG } from "./Icons";
+import Logo from "./Logo";
 
 export default function Layout({ children }) {
   const [showNav, setShowNav] = useState(false);
@@ -21,10 +22,13 @@ export default function Layout({ children }) {
 
   return (
     <div className="bg-bgGray min-h-screen">
-      <div className="block md:hidden">
+      <div className="flex items-center md:hidden p-4">
         <button onClick={() => setShowNav(!showNav)}>
           <HamburgerSVG />
         </button>
+        <div className="flex grow justify-center pr-4">
+          <Logo />
+        </div>
       </div>
 
       <div className="flex">
@@ -37,7 +41,7 @@ export default function Layout({ children }) {
   );
 }
 
-// Нужно переделать, скачет интерфейс
+// Нужно доделать, скачет интерфейс
 
 // useSession() returns an object containing two values: data and status:
 

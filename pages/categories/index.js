@@ -162,7 +162,7 @@ const CategoriesPage = () => {
                 />
                 <button
                   type="button"
-                  className="btn-default"
+                  className="btn-red"
                   onClick={() => removeProperty(index)}
                 >
                   Remove
@@ -207,14 +207,14 @@ const CategoriesPage = () => {
                   <td>{category?.parent?.name}</td>
                   <td className="flex gap-2">
                     <button
-                      className="btn-primary"
+                      className="btn-default mr-1"
                       onClick={() => editCategory(category)}
                     >
                       <EditSVG h={6} />
                       Edit
                     </button>
                     <button
-                      className="btn-primary"
+                      className="btn-red"
                       onClick={() => deleteCategory(category)}
                     >
                       <DeleteSVG h={6} />

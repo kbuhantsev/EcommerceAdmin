@@ -23,11 +23,11 @@ const Products = () => {
             <tr key={_id}>
               <td>{title}</td>
               <td>
-                <Link href={"/products/edit/" + _id}>
+                <Link href={"/products/edit/" + _id} className="btn-default">
                   <EditSVG h={6} />
                   Edit
                 </Link>
-                <Link href={"/products/delete/" + _id}>
+                <Link href={"/products/delete/" + _id} className="btn-red">
                   <DeleteSVG h={6} />
                   Delete
                 </Link>

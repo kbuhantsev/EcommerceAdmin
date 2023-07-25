@@ -121,8 +121,10 @@ const ProductForm = ({
 
       {propertiesToFill.length > 0 &&
         propertiesToFill.map((property) => (
-          <div key={property._id} className="flex gap-1">
-            <div key={property.name}>{property.name}</div>
+          <div key={property._id} className="">
+            <label key={property.name}>
+              {property.name.charAt(0).toUpperCase() + property.name.slice(1)}
+            </label>
             <select
               key={property._id + property.name}
               value={productProperties[property.name]}
@@ -146,7 +148,10 @@ const ProductForm = ({
         >
           {images.length > 0 &&
             images.map((image) => (
-              <div key={image.public_id} className="h-24">
+              <div
+                key={image.public_id}
+                className="h-24 bg-white p-2 shadow-sm rounded-sm border-gray-200"
+              >
                 <img
                   src={image.url}
                   alt={image.original_filename}
@@ -162,10 +167,10 @@ const ProductForm = ({
         )}
         <label
           className="flex flex-col justify-center items-center 
-        gap-1 text-gray-500 w-24 h-24 rounded-lg bg-gray-200 cursor-pointer"
+        gap-1 text-primary w-24 h-24 rounded-lg bg-white cursor-pointer shadow-sm border-gray-300"
         >
           <UploadSVG />
-          Upload
+          Add image
           <input type="file" className="hidden" onChange={uploadImages} />
         </label>
       </div>

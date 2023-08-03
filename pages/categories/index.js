@@ -194,9 +194,9 @@ const CategoriesPage = () => {
         <table className="basic mt-4">
           <thead>
             <tr>
-              <td>Category name</td>
-              <td>Parent category</td>
-              <td></td>
+              <th>Category name</th>
+              <th>Parent category</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

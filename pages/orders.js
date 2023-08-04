@@ -17,7 +17,8 @@ const OrdersPage = () => {
       <table className="basic mt-4">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Date</th>
+            <th>Paid</th>
             <th>Recipient</th>
             <th>Products</th>
           </tr>
@@ -26,7 +27,10 @@ const OrdersPage = () => {
           {orders.length > 0 &&
             orders.map((order) => (
               <tr>
-                <td>{order.createdAt}</td>
+                <td>{new Date(order.createdAt).toLocaleString()}</td>
+                <td className={order.paid ? "text-green-600" : "text-red-600"}>
+                  {order.paid ? "YES" : "NO"}
+                </td>
                 <td>
                   {order.name} {order.email}
                   <br />
@@ -36,7 +40,10 @@ const OrdersPage = () => {
                 </td>
                 <td>
                   {order.line_items?.map((line) => (
-                    <>{JSON.stringify(line)}</>
+                    <>
+                      {line.price_data?.product_data?.name} x {line.quantity}
+                      <br />
+                    </>
                   ))}
                 </td>
               </tr>

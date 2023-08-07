@@ -46,11 +46,13 @@ export const authOptions = {
       name: "google",
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     GitHubProvider({
       name: "github",
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),

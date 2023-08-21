@@ -1,15 +1,9 @@
 import Layout from "@/components/Layout";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useSWR from "swr";
 
 const OrdersPage = () => {
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    axios.get("/api/orders").then((response) => {
-      setOrders(response.data);
-    });
-  }, []);
+  const { data: orders } = useSWR("/api/orders");
 
   return (
     <Layout>
@@ -24,7 +18,8 @@ const OrdersPage = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.length > 0 &&
+          {orders &&
+            orders.length > 0 &&
             orders.map((order) => (
               <tr>
                 <td>{new Date(order.createdAt).toLocaleString()}</td>

@@ -1,10 +1,10 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { UploadSVG } from "./Icons";
-import FadeSpinner from "./FadeSpinner";
-import { ReactSortable } from "react-sortablejs";
-import useSWR from "swr";
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { UploadSVG } from './Icons';
+import FadeSpinner from './FadeSpinner';
+import { ReactSortable } from 'react-sortablejs';
+import useSWR from 'swr';
 
 const ProductForm = ({
   _id,
@@ -15,25 +15,25 @@ const ProductForm = ({
   category: assignedCategory,
   properties: assignedProperties,
 }) => {
-  const [title, setTitle] = useState(existingTitle || "");
-  const [description, setDescription] = useState(existingDescription || "");
+  const [title, setTitle] = useState(existingTitle || '');
+  const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || 0);
   const [images, setImages] = useState(existingImages || []);
   const [goToProducts, setGoToProducts] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [category, setCategory] = useState(assignedCategory || "");
+  const [category, setCategory] = useState(assignedCategory || '');
   const [productProperties, setProductProperties] = useState(
     assignedProperties || {}
   );
 
   const router = useRouter();
-  const { data: categories = [] } = useSWR("/api/categories");
+  const { data: categories = [] } = useSWR('/api/categories');
 
   if (goToProducts) {
-    router.push("/products");
+    router.push('/products');
   }
 
-  const saveProduct = async (event) => {
+  const saveProduct = async event => {
     event.preventDefault();
 
     const data = {
@@ -46,25 +46,25 @@ const ProductForm = ({
     };
     if (_id) {
       //update
-      await axios.put("/api/products", { ...data, _id });
+      await axios.put('/api/products', { ...data, _id });
     } else {
       //create
-      await axios.post("/api/products", data);
+      await axios.post('/api/products', data);
     }
     setGoToProducts(true);
   };
 
-  const uploadImages = async (e) => {
+  const uploadImages = async e => {
     const files = e.target?.files;
 
     if (files?.length > 0) {
       setUploading(true);
       const data = new FormData();
       for (const file of files) {
-        data.append("file", file);
+        data.append('file', file);
       }
-      const res = await axios.post("/api/upload", data);
-      setImages((oldImages) => {
+      const res = await axios.post('/api/upload', data);
+      setImages(oldImages => {
         return [...oldImages, ...res.data];
       });
     }
@@ -76,7 +76,7 @@ const ProductForm = ({
   }
 
   const setProductProp = (propName, value) => {
-    setProductProperties((prev) => {
+    setProductProperties(prev => {
       const newProductProps = { ...prev };
       newProductProps[propName] = value;
       return newProductProps;
@@ -103,13 +103,13 @@ const ProductForm = ({
         type="text"
         placeholder="product name"
         value={title}
-        onChange={(e) => {
+        onChange={e => {
           setTitle(e.target.value);
         }}
       />
 
       <label>Category</label>
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select value={category} onChange={e => setCategory(e.target.value)}>
         <option value="">Uncategorized</option>
         {categories.length > 0 &&
           categories.map(({ _id, name }) => (
@@ -120,7 +120,7 @@ const ProductForm = ({
       </select>
 
       {propertiesToFill.length > 0 &&
-        propertiesToFill.map((property) => (
+        propertiesToFill.map(property => (
           <div key={property._id} className="">
             <label key={property.name}>
               {property.name.charAt(0).toUpperCase() + property.name.slice(1)}
@@ -128,10 +128,10 @@ const ProductForm = ({
             <select
               key={property._id + property.name}
               value={productProperties[property.name]}
-              onChange={(e) => setProductProp(property.name, e.target.value)}
+              onChange={e => setProductProp(property.name, e.target.value)}
             >
-              {property.values.map((val, idx) => (
-                <option key={idx} value={val}>
+              {property.values.map(val => (
+                <option key={val._id} value={val}>
                   {val}
                 </option>
               ))}
@@ -147,7 +147,7 @@ const ProductForm = ({
           className="flex flex-wrap gap-1"
         >
           {images.length > 0 &&
-            images.map((image) => (
+            images.map(image => (
               <div
                 key={image.public_id}
                 className="h-24 bg-white p-2 shadow-sm rounded-sm border-gray-200"
@@ -179,7 +179,7 @@ const ProductForm = ({
       <textarea
         placeholder="decription..."
         value={description}
-        onChange={(e) => {
+        onChange={e => {
           setDescription(e.target.value);
         }}
         rows="5"
@@ -190,7 +190,7 @@ const ProductForm = ({
         type="number"
         placeholder="price"
         value={price}
-        onChange={(e) => {
+        onChange={e => {
           setPrice(e.target.value);
         }}
       />
@@ -200,7 +200,7 @@ const ProductForm = ({
           Save
         </button>
         <button
-          className="btn-primary"
+          className="btn-red"
           type="button"
           onClick={() => setGoToProducts(true)}
         >

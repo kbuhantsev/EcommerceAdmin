@@ -11,7 +11,7 @@ const CategoriesPage = () => {
   const [editedCategory, setEditedCategory] = useState(null);
   const [properties, setProperties] = useState([]);
 
-  const { data: categories, mutate } = useSWR('/api/categories');
+  const { data: categories = [], mutate } = useSWR('/api/categories');
 
   const saveCategory = async e => {
     e.preventDefault();
@@ -131,8 +131,7 @@ const CategoriesPage = () => {
             onChange={e => setParentCategory(e.target.value)}
           >
             <option value="">No parent category</option>
-            {categories &&
-              categories.length > 0 &&
+            {categories.length > 0 &&
               categories.map(category => (
                 <option key={category._id} value={category._id}>
                   {category.name}
@@ -151,7 +150,7 @@ const CategoriesPage = () => {
           </button>
           {properties.length > 0 &&
             properties.map((property, index) => (
-              <div key={index} className="flex gap-1 mb-2">
+              <div key={property._id} className="flex gap-1 mb-2">
                 <input
                   type="text"
                   placeholder="property name (example: color)"
@@ -210,8 +209,7 @@ const CategoriesPage = () => {
             </tr>
           </thead>
           <tbody>
-            {categories &&
-              categories.length > 0 &&
+            {categories.length > 0 &&
               categories.map(category => (
                 <tr key={category._id}>
                   <td>{category.name}</td>

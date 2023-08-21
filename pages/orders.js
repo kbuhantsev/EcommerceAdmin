@@ -1,9 +1,9 @@
-import Layout from "@/components/Layout";
-import React from "react";
-import useSWR from "swr";
+import Layout from '@/components/Layout';
+import React from 'react';
+import useSWR from 'swr';
 
 const OrdersPage = () => {
-  const { data: orders } = useSWR("/api/orders");
+  const { data: orders = [] } = useSWR('/api/orders');
 
   return (
     <Layout>
@@ -18,13 +18,12 @@ const OrdersPage = () => {
           </tr>
         </thead>
         <tbody>
-          {orders &&
-            orders.length > 0 &&
-            orders.map((order) => (
-              <tr>
+          {orders.length > 0 &&
+            orders.map(order => (
+              <tr key={order._id}>
                 <td>{new Date(order.createdAt).toLocaleString()}</td>
-                <td className={order.paid ? "text-green-600" : "text-red-600"}>
-                  {order.paid ? "YES" : "NO"}
+                <td className={order.paid ? 'text-green-600' : 'text-red-600'}>
+                  {order.paid ? 'YES' : 'NO'}
                 </td>
                 <td>
                   {order.name} {order.email}
@@ -34,11 +33,11 @@ const OrdersPage = () => {
                   {order.streetAddress}
                 </td>
                 <td>
-                  {order.line_items?.map((line) => (
-                    <>
+                  {order.line_items?.map((line, idx) => (
+                    <div key={idx}>
                       {line.price_data?.product_data?.name} x {line.quantity}
                       <br />
-                    </>
+                    </div>
                   ))}
                 </td>
               </tr>
